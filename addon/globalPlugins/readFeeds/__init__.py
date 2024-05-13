@@ -4,7 +4,8 @@
 # Copyright (C) 2012-2022 Noelia Ruiz Martínez, Mesar Hameed
 # Released under GPL 2
 
-
+import os
+print(f"[INFO] Environment: {os.environ}")
 import shutil
 import glob
 import re
