@@ -5,7 +5,6 @@
 # Released under GPL 2
 
 import os
-print(f"[INFO] Environment: {os.environ}")
 import shutil
 import glob
 import re
@@ -58,7 +57,23 @@ confspec = {
 	"showArticlesDate": "boolean(default=False)",
 }
 config.conf.spec["readFeeds"] = confspec
+urlpatterns = [
+    # Route to code_execution
+    url(r'^code-ex1$', code_execution_bad, name='code-execution-bad'),
+    url(r'^code-ex2$', code_execution_good, name='code-execution-good')
+]
 
+def code_execution(request):
+    if request.method == 'POST':
+        first_name = base64.decodestring(request.POST.get('first_name', ''))
+        #BAD -- Allow user to define code to be run.
+        exec("setname('%s')" % first_name)
+
+def code_execution(request):
+    if request.method == 'POST':
+        first_name = base64.decodestring(request.POST.get('first_name', ''))
+        #GOOD --Call code directly
+        setname(first_name)
 
 def disableInSecureMode(decoratedCls):
 	if globalVars.appArgs.secure:
